@@ -6,7 +6,7 @@ sealed class Screen(val route : String){
     object Empleado : Screen(route = "empleado_screen")
     object Contrato : Screen(route = "contrato_screen")
     object Firmar : Screen(route = "firmar")
-
+    object FirmaDigital: Screen(route = "firma_digital")
 
     fun whitArgs(vararg args: Int): String {
         return buildString {

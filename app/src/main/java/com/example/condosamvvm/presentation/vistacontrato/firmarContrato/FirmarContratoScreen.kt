@@ -27,10 +27,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.condosamvvm.presentation.Screen
 import com.example.condosamvvm.presentation.login.HeaderImage
 
 @Composable
-fun FirmarContratoScreen(idContrato: Int){
+fun FirmarContratoScreen(idContrato: Int, navController: NavHostController){
 
     Column(
         Modifier
@@ -79,12 +81,12 @@ fun FirmarContratoScreen(idContrato: Int){
             horizontalArrangement = Arrangement.Center,
         ){
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { navController.navigate(Screen.FirmaDigital.whitArgs(idContrato)) },
                 colors = buttonColors(containerColor = Color(0xff9AB4FF))) {
                 Text(text = "Subir firma", color = Color.Black)
             }
             Spacer(Modifier.padding(horizontal = 10.dp))
-            Button(onClick = { /*TODO*/ },
+            Button(onClick = {  },
                 colors = buttonColors(containerColor = Color(0xff9AB4FF))
                 ) {
                 Text(text = "Subir huella", color = Color.Black)
@@ -93,7 +95,5 @@ fun FirmarContratoScreen(idContrato: Int){
 
 
     }
-
-
 }
 

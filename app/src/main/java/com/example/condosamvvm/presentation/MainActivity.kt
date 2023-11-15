@@ -25,6 +25,7 @@ import com.example.condosamvvm.presentation.login.LoginViewModel
 import com.example.condosamvvm.presentation.vistacontrato.ContratoViewModel
 import com.example.condosamvvm.presentation.vistacontrato.ContratosScreen
 import com.example.condosamvvm.presentation.vistacontrato.firmarContrato.FirmarContratoScreen
+import com.example.condosamvvm.presentation.vistacontrato.firmarContrato.firmaDigital.SignaturePad
 import com.example.condosamvvm.presentation.vistaempleado.EmpleadoScreen
 import com.example.condosamvvm.presentation.vistaempleado.EmpleadoViewModel
 import com.example.condosamvvm.ui.theme.CondosaMVVMTheme
@@ -78,7 +79,18 @@ class MainActivity : ComponentActivity() {
                                         }
                                     )
                                 ){entry ->
-                                    FirmarContratoScreen(idContrato = entry.arguments?.getInt("idContrato")!!)
+                                    FirmarContratoScreen(idContrato = entry.arguments?.getInt("idContrato")!!, navController)
+                                }
+                                composable(
+                                    route = Screen.FirmaDigital.route + "/{idContrato}",
+                                    arguments = listOf(
+                                        navArgument("idContrato"){
+                                            type = NavType.IntType
+                                            nullable = false
+                                        }
+                                    )
+                                ){entry ->
+                                    SignaturePad(idContrato = entry.arguments?.getInt("idContrato")!!)
                                 }
                             }
                         }
