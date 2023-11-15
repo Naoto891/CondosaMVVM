@@ -94,6 +94,10 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.2.6")
     //kotlin serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+    //Signature pad
+    implementation ("se.warting.signature:signature-pad:0.1.2")
+
+    
 
 }
 

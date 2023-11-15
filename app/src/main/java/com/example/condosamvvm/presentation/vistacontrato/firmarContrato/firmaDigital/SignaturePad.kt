@@ -1,5 +1,6 @@
 package com.example.condosamvvm.presentation.vistacontrato.firmarContrato.firmaDigital
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,19 +13,31 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.condosamvvm.presentation.Screen
+import com.example.condosamvvm.presentation.vistacontrato.ContratoViewModel
+import kotlinx.coroutines.launch
 import se.warting.signaturepad.SignaturePadAdapter
 import se.warting.signaturepad.SignaturePadView
+import java.io.ByteArrayOutputStream
+import java.time.LocalDate
 
 @Composable
 fun SignaturePad(
-    idContrato: Int
+    idContrato: Int, signaturePadViewModel: SignaturePadViewModel, navController: NavHostController
 ){
+    val currentDate = LocalDate.now()
+    val coroutineScope = rememberCoroutineScope()
     var signaturePadAdapter: SignaturePadAdapter? = null
+    var signatureByteArray: ByteArray? = null
+
+
 
     Column(
         modifier = Modifier
@@ -63,10 +76,34 @@ fun SignaturePad(
             Button(onClick = { signaturePadAdapter?.clear() }) {
                 Text(text = "Limpiar Firma")
             }
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = {
+
+                coroutineScope.launch{
+                    // Captura la firma como un Bitmap (ejemplo)
+                    val signatureBitmap: Bitmap? = signaturePadAdapter?.getSignatureBitmap()
+
+                    // Convierte el Bitmap a un ByteArray
+                    signatureByteArray = bitmapToByteArray(signatureBitmap)
+
+
+
+                    signaturePadViewModel.FirmarContratoEmpleado(idContrato, currentDate, signatureByteArray!!){
+
+                        navController.navigate(Screen.Contrato.route){
+                            popUpTo(Screen.Empleado.route)
+                        }
+                    }
+                }
+
+            }) {
                 Text(text = "Guardar Firma")
             }
         }
     }
 }
 
+fun bitmapToByteArray(bitmap: Bitmap?): ByteArray {
+    val byteArrayOutputStream = ByteArrayOutputStream()
+    bitmap?.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+    return byteArrayOutputStream.toByteArray()
+}

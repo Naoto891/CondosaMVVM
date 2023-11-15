@@ -26,6 +26,7 @@ import com.example.condosamvvm.presentation.vistacontrato.ContratoViewModel
 import com.example.condosamvvm.presentation.vistacontrato.ContratosScreen
 import com.example.condosamvvm.presentation.vistacontrato.firmarContrato.FirmarContratoScreen
 import com.example.condosamvvm.presentation.vistacontrato.firmarContrato.firmaDigital.SignaturePad
+import com.example.condosamvvm.presentation.vistacontrato.firmarContrato.firmaDigital.SignaturePadViewModel
 import com.example.condosamvvm.presentation.vistaempleado.EmpleadoScreen
 import com.example.condosamvvm.presentation.vistaempleado.EmpleadoViewModel
 import com.example.condosamvvm.ui.theme.CondosaMVVMTheme
@@ -38,6 +39,7 @@ class MainActivity : ComponentActivity() {
     private val loginViewModel: LoginViewModel by viewModels()
     private val empleadoViewModel: EmpleadoViewModel by viewModels()
     private val contratoViewModel: ContratoViewModel by viewModels()
+    private val signaturePadViewModel: SignaturePadViewModel by viewModels()
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterial3Api::class)
@@ -90,7 +92,7 @@ class MainActivity : ComponentActivity() {
                                         }
                                     )
                                 ){entry ->
-                                    SignaturePad(idContrato = entry.arguments?.getInt("idContrato")!!)
+                                    SignaturePad(idContrato = entry.arguments?.getInt("idContrato")!!, signaturePadViewModel, navController)
                                 }
                             }
                         }

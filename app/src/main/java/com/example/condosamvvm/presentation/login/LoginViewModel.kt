@@ -40,6 +40,7 @@ class LoginViewModel @Inject constructor(private val checkUsuario: CheckUsuario)
         viewModelScope.launch() {
             _isLoading.value = true
             val authenticated = checkUsuario(email.value!!, password.value!!)
+
             if(authenticated){
                 xd()
             }
@@ -47,5 +48,7 @@ class LoginViewModel @Inject constructor(private val checkUsuario: CheckUsuario)
         }
 
     }
+
+
 
 }

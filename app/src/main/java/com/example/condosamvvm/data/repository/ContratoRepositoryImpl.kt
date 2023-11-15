@@ -18,7 +18,7 @@ class ContratoRepositoryImpl @Inject constructor(
        return dao.searchContrato(id)
     }
 
-    override suspend fun firmarContratoEmpleado(id: Int, fechaFirmaPersonal: LocalDate): Boolean {
-       return dao.firmarContratoEmpleado(id,fechaFirmaPersonal)
+    override suspend fun firmarContratoEmpleado(id: Int, fechaFirmaPersonal: LocalDate, firmaPersonal: ByteArray): Boolean {
+       return dao.firmarContratoEmpleado(id,fechaFirmaPersonal, firmaPersonal )
     }
 }

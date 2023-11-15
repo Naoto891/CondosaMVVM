@@ -12,5 +12,7 @@ data class Contrato(
     val fechaFirmaSolicitante: LocalDate?,
     val fechaFirmaPersonal: LocalDate?,
     val fechaRegistro: LocalDate?,
-    val minuta: String?
+    val minuta: String?,
+    val firmaSolicitante: ByteArray?,
+    val firmaPersonal: ByteArray?
 )

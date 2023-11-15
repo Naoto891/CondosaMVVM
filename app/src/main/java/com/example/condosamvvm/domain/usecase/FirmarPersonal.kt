@@ -8,11 +8,7 @@ class FirmarPersonal @Inject constructor(
     private val repository: ContratoRepository
 ) {
 
-    suspend operator fun invoke(idContrato: Int, fechaFirmaPersonal: LocalDate) {
-        val actualizacionExitosa = repository.firmarContratoEmpleado(idContrato, fechaFirmaPersonal)
-
-        if (!actualizacionExitosa) {
-            throw Exception("No se encontró un contrato con id $idContrato")
-        }
+    suspend operator fun invoke(idContrato: Int, fechaFirmaPersonal: LocalDate, firmaPersonal: ByteArray): Boolean {
+        return repository.firmarContratoEmpleado(idContrato, fechaFirmaPersonal, firmaPersonal)
     }
 }

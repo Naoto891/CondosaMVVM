@@ -21,7 +21,9 @@ class ContratoDao {
         fechaFirmaSolicitante = row[ContratoTable.fechaFirmaSolicitante],
         fechaFirmaPersonal = row[ContratoTable.fechaFirmaPersonal],
         fechaRegistro = row[ContratoTable.fechaRegistro],
-        minuta = row[ContratoTable.minuta]
+        minuta = row[ContratoTable.minuta],
+        firmaSolicitante = row[ContratoTable.firmaSolicitante],
+        firmaPersonal = row[ContratoTable.firmaPersonal]
     )
 
     suspend fun getContratos(): List<Contrato> = dbQuery {
@@ -37,11 +39,13 @@ class ContratoDao {
             .singleOrNull()
     }
 
-    suspend fun firmarContratoEmpleado(id: Int, fechaFirmaPersonal: LocalDate): Boolean = dbQuery {
+    suspend fun firmarContratoEmpleado(id: Int, fechaFirmaPersonal: LocalDate, firmaPersonal: ByteArray): Boolean = dbQuery {
         ContratoTable
             .update({ ContratoTable.idContrato eq id }){
                 it[ContratoTable.fechaFirmaPersonal] = fechaFirmaPersonal
+                it[ContratoTable.firmaPersonal] = firmaPersonal
             } > 0
     }
+
 
 }

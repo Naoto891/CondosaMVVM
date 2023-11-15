@@ -65,7 +65,7 @@ fun ContratosScreen(contratoViewModel: ContratoViewModel, navController: NavHost
 @Composable
 fun ContratoDataList(modifier: Modifier, contratoViewModel : ContratoViewModel, navController: NavHostController) {
 
-    val isSelectedIndex: Int by contratoViewModel.isSelectedIndex.observeAsState(initial = 1)
+    val isSelectedIndex: Int by contratoViewModel.isSelectedIndex.observeAsState(initial = 0)
     val list = listOf("Crear Contratos","Contratos Pendientes", "Contratos Completados")
     val pagerState = rememberPagerState(0)
 
@@ -133,10 +133,9 @@ fun ContratoDataList(modifier: Modifier, contratoViewModel : ContratoViewModel, 
                   ContratoList(contratoViewModel, index, navController)
                     print(message = index)
                 }
-                
+
             }
         }
-
 
 
 
@@ -149,6 +148,7 @@ fun ContratoDataList(modifier: Modifier, contratoViewModel : ContratoViewModel, 
 fun ContratoList(contratoViewModel: ContratoViewModel, index: Int, navController: NavHostController) {
 
     val contratoList: List<Contrato> by contratoViewModel.contratos.observeAsState(emptyList())
+    contratoViewModel.getcontratos()
 
     Scaffold(
         modifier = Modifier
@@ -168,7 +168,9 @@ fun ContratoList(contratoViewModel: ContratoViewModel, index: Int, navController
                         }
                     }
                     1 -> {
-                        contratoList
+                        contratoList.filter{
+                            it.fechaFirmaPersonal == null && it.fechaFirmaSolicitante == null
+                        }
                     }
                     else -> {
                         contratoList.filter {

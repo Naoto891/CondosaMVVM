@@ -13,6 +13,8 @@ object ContratoTable : Table("contrato") {
     val fechaFirmaPersonal = date("fecha_firma_personal")
     val fechaRegistro = date("fecha_registro")
     val minuta = varchar("minuta", length = 255)
+    val firmaSolicitante = binary("firma_solicitante") // Agregado: tipo bytea
+    val firmaPersonal = binary("firma_personal") // Agregado: tipo bytea
 
     override val primaryKey = PrimaryKey(idContrato)
 }
