@@ -216,10 +216,15 @@ fun ContratosCard(contrato: Contrato,index: Int,  navController: NavHostControll
 
                 TextVisibleLabel(text = "ID Contrato: ", isVisible =  index != 0)
                 TextVisible(text = contrato.idContrato.toString(), isVisible =  index != 0)
+                TextVisibleLabel(text = "ID Cotizacion: ", isVisible =  index != 2)
                 TextVisible(text = contrato.idSolicitudCotizacion.toString(),isVisible = index != 2)
+                TextVisibleLabel(text = "Fecha de contrato: ", isVisible =  index == 1)
                 TextVisible(text = contrato.fechaContrato.toString(), isVisible = index == 1 )
+                TextVisibleLabel(text = "ID Personal: ", isVisible =  index == 2)
                 TextVisible(text = contrato.idPersonal.toString(), isVisible = index == 2)
+                TextVisibleLabel(text = "ID Solicitante: ", isVisible =  index == 2)
                 TextVisible(text = contrato.idSolicitante.toString(), isVisible = index == 2)
+                TextVisibleLabel(text = "Fecha de registro: ", isVisible =  index == 2)
                 TextVisible(text = contrato.fechaRegistro.toString(), isVisible = index == 2)
             }
             when(index){
