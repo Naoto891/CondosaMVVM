@@ -12,6 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val checkUsuario: CheckUsuario): ViewModel() {
+    private val _isSelectedIndex = MutableLiveData<Int>()
+    val isSelectedIndex: LiveData<Int> = _isSelectedIndex
 
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> = _email
@@ -25,7 +27,10 @@ class LoginViewModel @Inject constructor(private val checkUsuario: CheckUsuario)
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-
+    fun selectedIndexChanged(index : Int){
+        _isSelectedIndex.value = index
+    }
+    
     fun onLoginChanged(email: String, password: String) {
         _email.value = email
         _password.value = password
