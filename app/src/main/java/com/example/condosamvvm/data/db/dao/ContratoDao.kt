@@ -5,6 +5,7 @@ import com.example.condosamvvm.data.db.tables.ContratoTable
 import com.example.condosamvvm.domain.model.Contrato
 
 import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.update
@@ -32,11 +33,16 @@ class ContratoDao {
             .map(::resultRowToContrato)
     }
 
-    suspend fun searchContrato(id:Int) : Contrato? = dbQuery {
+    suspend fun getContratosByIdSolicitante(idPersona:Int) : List<Contrato> = dbQuery {
         ContratoTable
-            .select{ ContratoTable.idContrato eq id}
+            .select{ ContratoTable.idSolicitante eq idPersona}
             .map(::resultRowToContrato)
-            .singleOrNull()
+    }
+
+    suspend fun getContratosByIdPersonal(idPersona:Int) : List<Contrato> = dbQuery {
+        ContratoTable
+            .select{ ContratoTable.idPersonal eq idPersona}
+            .map(::resultRowToContrato)
     }
 
     suspend fun firmarContratoEmpleado(id: Int, fechaFirmaPersonal: LocalDate, firmaPersonal: ByteArray): Boolean = dbQuery {
@@ -45,6 +51,14 @@ class ContratoDao {
                 it[ContratoTable.fechaFirmaPersonal] = fechaFirmaPersonal
                 it[ContratoTable.firmaPersonal] = firmaPersonal
             } > 0
+    }
+
+    suspend fun firmarContratoSolicitante(id: Int, fechaFirmaSolicitante: LocalDate, firmaSolicitante: ByteArray): Boolean = dbQuery {
+        ContratoTable
+            .update ({ ContratoTable.idContrato eq id }){
+                it[ContratoTable.fechaFirmaSolicitante] = fechaFirmaSolicitante
+                it[ContratoTable.firmaSolicitante] = firmaSolicitante
+            } >0
     }
 
 

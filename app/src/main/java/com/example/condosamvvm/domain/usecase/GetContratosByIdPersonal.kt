@@ -4,10 +4,10 @@ import com.example.condosamvvm.domain.model.Contrato
 import com.example.condosamvvm.domain.repository.ContratoRepository
 import javax.inject.Inject
 
-class SearchContrato @Inject constructor(
+class GetContratosByIdPersonal @Inject constructor(
     private val repository: ContratoRepository
-){
-    suspend operator fun invoke(id: Int): Contrato? {
-        return repository.searchContrato(id)
+) {
+    suspend operator fun invoke(idPersona: Int): List<Contrato>{
+        return repository.getContratosByIdPersonal(idPersona)
     }
 }

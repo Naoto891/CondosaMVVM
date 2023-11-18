@@ -60,6 +60,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import com.example.condosamvvm.R
 import com.example.condosamvvm.presentation.Screen
 import kotlinx.coroutines.launch
@@ -90,12 +91,18 @@ fun LoginScreen(loginViewModel: LoginViewModel, navController: NavHostController
 @Composable
 fun Login(modifier: Modifier, loginViewModel: LoginViewModel, navController : NavHostController){
 
+
+
     val email: String by loginViewModel.email.observeAsState(initial = "")
     val password: String by loginViewModel.password.observeAsState(initial = "")
     val loginEnable: Boolean by loginViewModel.loginEnable.observeAsState(initial = false)
     val isLoading: Boolean by loginViewModel.isLoading.observeAsState(initial = false)
-    //val isLoggedIn: Boolean by loginViewModel.isLoggedIn.observeAsState(initial = false)
+
+
+
     val coroutineScope = rememberCoroutineScope()
+
+ //   val idSolicitanteInt = loginViewModel.getSOLICITANTE()
 
     if(isLoading){
         Box(Modifier.fillMaxSize()) {
@@ -135,7 +142,17 @@ fun Login(modifier: Modifier, loginViewModel: LoginViewModel, navController : Na
             Spacer(modifier = Modifier.padding(8.dp))
             LoginButton(loginEnable){
                 coroutineScope.launch {
-                    loginViewModel.onLoginSelected { navController.navigate(Screen.Empleado.route) }
+                    loginViewModel.onLoginSelected( {idPersonal ->
+                        navController.navigate(Screen.Empleado.whitArgs(idPersonal))
+                },{idSolicitante ->
+                        navController.navigate(Screen.Solicitante.whitArgs(idSolicitante))
+                    }
+                    )
+                       /* xd = {navController.navigate(Screen.Empleado.whitArgs(isPersona)) } ,
+                        xd2= {navController.navigate(Screen.Solicitante.whitArgs(isPersona)) })*/
+
+                    }
+
                 }
 
             }
@@ -145,7 +162,7 @@ fun Login(modifier: Modifier, loginViewModel: LoginViewModel, navController : Na
 
     }
 
-}
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)

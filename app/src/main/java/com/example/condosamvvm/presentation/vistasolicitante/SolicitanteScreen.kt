@@ -1,4 +1,4 @@
-package com.example.condosamvvm.presentation.vistaempleado
+package com.example.condosamvvm.presentation.vistasolicitante
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,26 +27,26 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.condosamvvm.R
 import com.example.condosamvvm.presentation.Screen
+
 import kotlinx.coroutines.launch
 
 @Composable
-fun EmpleadoScreen(idPersona: Int,empleadoViewModel: EmpleadoViewModel, navController: NavHostController) {
+fun SolicitanteScreen(idPersona: Int, solicitanteViewModel: SolicitanteViewModel, navController: NavHostController) {
     Box(
         Modifier
             .fillMaxSize()
             .background(Color(0xFF1c4c96))
     ) {
-        Empleado(Modifier.align(Alignment.Center), empleadoViewModel, navController, idPersona)
+        Solicitante(Modifier.align(Alignment.Center), solicitanteViewModel, navController, idPersona)
     }
 }
 
 @Composable
-fun Empleado(modifier: Modifier, empleadoViewModel: EmpleadoViewModel, navController: NavHostController, idPersona: Int) {
+fun Solicitante(modifier: Modifier, solicitanteViewModel: SolicitanteViewModel, navController: NavHostController, idPersona: Int) {
 
 
-    val isLoading: Boolean by empleadoViewModel.isLoading.observeAsState(initial = false)
+    val isLoading: Boolean by solicitanteViewModel.isLoading.observeAsState(initial = false)
     val coroutineScope = rememberCoroutineScope()
-
 
 
     if(isLoading){
@@ -70,11 +70,9 @@ fun Empleado(modifier: Modifier, empleadoViewModel: EmpleadoViewModel, navContro
             Spacer(modifier = Modifier.padding(4.dp))
             ContratosButton {
                 coroutineScope.launch {
-                    navController.navigate(Screen.ContratoEmpleado.whitArgs(idPersona))
+                    navController.navigate(Screen.ContratoSolicitante.whitArgs(idPersona))
                 }
             }
-            Spacer(modifier = Modifier.padding(16.dp))
-            CotizacionesButton{}
             Spacer(modifier = Modifier.padding(75.dp))
         }
     }
@@ -96,24 +94,6 @@ fun ContratosButton( onContratoSelected: () -> Unit) {
         Text(text = "Contratos")
     }
 }
-
-@Composable
-fun CotizacionesButton( onCotizacionSelected: () -> Unit) {
-    Button(
-        onClick = {},
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(48.dp)
-            .padding(40.dp, 0.dp),
-        colors = ButtonDefaults.buttonColors(
-            contentColor = Color.White,
-            disabledContentColor = Color.White
-        )
-    ) {
-        Text(text = "Cotizaciones")
-    }
-}
-
 
 @Composable
 fun HeaderImage(modifier: Modifier) {

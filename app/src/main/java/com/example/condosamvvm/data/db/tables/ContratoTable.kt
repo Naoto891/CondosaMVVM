@@ -6,8 +6,8 @@ import org.jetbrains.exposed.sql.javatime.date
 object ContratoTable : Table("contrato") {
     val idContrato = integer("id_contrato").autoIncrement()
     val idSolicitudCotizacion = integer("id_solicitud_cotizacion")
-    val idPersonal = integer("id_personal")
-    val idSolicitante = integer("id_solicitante")
+    val idPersonal = integer("id_personal").references(PersonalTable.idPersonal)
+    val idSolicitante = integer("id_solicitante").references(SolicitanteTable.idSolicitante)
     val fechaContrato = date("fecha_contrato")
     val fechaFirmaSolicitante = date("fecha_firma_solicitante")
     val fechaFirmaPersonal = date("fecha_firma_personal")

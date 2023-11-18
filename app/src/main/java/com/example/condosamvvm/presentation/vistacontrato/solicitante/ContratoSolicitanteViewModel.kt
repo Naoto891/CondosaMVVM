@@ -1,26 +1,19 @@
-package com.example.condosamvvm.presentation.vistacontrato
+package com.example.condosamvvm.presentation.vistacontrato.solicitante
 
-import android.content.Context
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.condosamvvm.domain.model.Contrato
-import com.example.condosamvvm.domain.usecase.FirmarPersonal
-import com.example.condosamvvm.domain.usecase.GetContratos
-import com.example.condosamvvm.domain.usecase.SearchContrato
+import com.example.condosamvvm.domain.usecase.GetContratosByIdSolicitante
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import javax.inject.Inject
 
-
 @HiltViewModel
-class ContratoViewModel @Inject constructor(
-    private val getContratos: GetContratos
-): ViewModel() {
+class ContratoSolicitanteViewModel @Inject constructor(
+    private val getContratosByIdSolicitante: GetContratosByIdSolicitante
+) : ViewModel() {
 
     private val _isSelectedIndex = MutableLiveData<Int>()
     val isSelectedIndex: LiveData<Int> = _isSelectedIndex
@@ -32,11 +25,10 @@ class ContratoViewModel @Inject constructor(
         _isSelectedIndex.value = index
     }
 
-    fun getcontratos() {
+    fun getContratosSolicitante(idPersona : Int) {
         viewModelScope.launch {
-            _contratos.value = getContratos()
+            _contratos.value = getContratosByIdSolicitante(idPersona)
         }
     }
-
 
 }

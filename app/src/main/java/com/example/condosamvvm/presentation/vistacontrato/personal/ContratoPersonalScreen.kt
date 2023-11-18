@@ -1,4 +1,4 @@
-package com.example.condosamvvm.presentation.vistacontrato
+package com.example.condosamvvm.presentation.vistacontrato.personal
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -14,11 +14,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialogDefaults.containerColor
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -26,7 +24,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabPosition
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,15 +38,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.condosamvvm.data.db.tables.ContratoTable
 import com.example.condosamvvm.domain.model.Contrato
 import com.example.condosamvvm.presentation.Screen
 import com.example.condosamvvm.presentation.login.HeaderImage
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.selects.select
 
 @Composable
-fun ContratosScreen(contratoViewModel: ContratoViewModel, navController: NavHostController) {
+fun ContratoPersonalScreen(idPersona: Int, contratoPersonalViewModel: ContratoPersonalViewModel, navController: NavHostController) {
 
     Box (
         Modifier
@@ -57,15 +52,15 @@ fun ContratosScreen(contratoViewModel: ContratoViewModel, navController: NavHost
             .background(Color(0xFF1c4c96)),
         contentAlignment = Alignment.TopCenter
     ) {
-        ContratoDataList(Modifier, contratoViewModel, navController)
+        ContratoDataListPersonal(Modifier, contratoPersonalViewModel, navController,idPersona)
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ContratoDataList(modifier: Modifier, contratoViewModel : ContratoViewModel, navController: NavHostController) {
+fun ContratoDataListPersonal(modifier: Modifier, contratoPersonalViewModel: ContratoPersonalViewModel, navController: NavHostController, idPersona: Int) {
 
-    val isSelectedIndex: Int by contratoViewModel.isSelectedIndex.observeAsState(initial = 0)
+    val isSelectedIndex: Int by contratoPersonalViewModel.isSelectedIndex.observeAsState(initial = 0)
     val list = listOf("Crear Contratos","Contratos Pendientes", "Contratos Completados")
     val pagerState = rememberPagerState(0)
 
@@ -91,7 +86,7 @@ fun ContratoDataList(modifier: Modifier, contratoViewModel : ContratoViewModel, 
         }
         LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress){
             if(!pagerState.isScrollInProgress){
-                contratoViewModel.selectedIndexChanged(pagerState.currentPage)
+                contratoPersonalViewModel.selectedIndexChanged(pagerState.currentPage)
             }
         }
         Column (
@@ -105,7 +100,7 @@ fun ContratoDataList(modifier: Modifier, contratoViewModel : ContratoViewModel, 
                     val selected = isSelectedIndex == index
                     Tab(
                         selected = selected,
-                        onClick = { contratoViewModel.selectedIndexChanged(index) },
+                        onClick = { contratoPersonalViewModel.selectedIndexChanged(index) },
                         modifier = if (selected) Modifier
                             .clip(RoundedCornerShape(15))
                             .background(Color(0xff062863))
@@ -130,7 +125,7 @@ fun ContratoDataList(modifier: Modifier, contratoViewModel : ContratoViewModel, 
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ){ //Text(text = list[index])
-                  ContratoList(contratoViewModel, index, navController)
+                    ContratoListPersonal(contratoPersonalViewModel, index, navController, idPersona)
                     print(message = index)
                 }
 
@@ -145,10 +140,10 @@ fun ContratoDataList(modifier: Modifier, contratoViewModel : ContratoViewModel, 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ContratoList(contratoViewModel: ContratoViewModel, index: Int, navController: NavHostController) {
+fun ContratoListPersonal(contratoPersonalViewModel: ContratoPersonalViewModel, index: Int, navController: NavHostController, idPersona: Int) {
 
-    val contratoList: List<Contrato> by contratoViewModel.contratos.observeAsState(emptyList())
-    contratoViewModel.getcontratos()
+    val contratoList: List<Contrato> by contratoPersonalViewModel.contratos.observeAsState(emptyList())
+    contratoPersonalViewModel.getContratosPersonal(idPersona)
 
     Scaffold(
         modifier = Modifier
@@ -169,7 +164,7 @@ fun ContratoList(contratoViewModel: ContratoViewModel, index: Int, navController
                     }
                     1 -> {
                         contratoList.filter{
-                            it.fechaFirmaPersonal == null && it.fechaFirmaSolicitante == null
+                            it.fechaFirmaPersonal == null
                         }
                     }
                     else -> {
@@ -180,7 +175,7 @@ fun ContratoList(contratoViewModel: ContratoViewModel, index: Int, navController
                 },
 
                 itemContent = {
-                    ContratosCard(contrato = it,index, navController)
+                    ContratosCardPersonal(contrato = it,index, navController)
                 }
             )
 
@@ -190,7 +185,7 @@ fun ContratoList(contratoViewModel: ContratoViewModel, index: Int, navController
 }
 
 @Composable
-fun ContratosCard(contrato: Contrato,index: Int,  navController: NavHostController) {
+fun ContratosCardPersonal(contrato: Contrato,index: Int,  navController: NavHostController) {
 
 
     val coroutineScope = rememberCoroutineScope()
@@ -216,10 +211,15 @@ fun ContratosCard(contrato: Contrato,index: Int,  navController: NavHostControll
 
                 TextVisibleLabel(text = "ID Contrato: ", isVisible =  index != 0)
                 TextVisible(text = contrato.idContrato.toString(), isVisible =  index != 0)
+                TextVisibleLabel(text = "ID Cotizacion: ", isVisible =  index != 2)
                 TextVisible(text = contrato.idSolicitudCotizacion.toString(),isVisible = index != 2)
+                TextVisibleLabel(text = "Fecha de contrato: ", isVisible =  index == 1)
                 TextVisible(text = contrato.fechaContrato.toString(), isVisible = index == 1 )
+                TextVisibleLabel(text = "ID Personal: ", isVisible =  index == 2)
                 TextVisible(text = contrato.idPersonal.toString(), isVisible = index == 2)
+                TextVisibleLabel(text = "ID Solicitante: ", isVisible =  index == 2)
                 TextVisible(text = contrato.idSolicitante.toString(), isVisible = index == 2)
+                TextVisibleLabel(text = "Fecha de registro: ", isVisible =  index == 2)
                 TextVisible(text = contrato.fechaRegistro.toString(), isVisible = index == 2)
             }
             when(index){
@@ -236,8 +236,7 @@ fun ContratosCard(contrato: Contrato,index: Int,  navController: NavHostControll
                 1->
                     Button(
                         onClick = {
-                            coroutineScope.launch { navController.navigate(Screen.Firmar.whitArgs(contrato.idContrato)) }
-
+                            coroutineScope.launch { navController.navigate(Screen.FirmarPersonal.whitArgs(contrato.idContrato)) }
                         },
                         modifier = Modifier
                             .weight(.30f)
@@ -254,8 +253,8 @@ fun ContratosCard(contrato: Contrato,index: Int,  navController: NavHostControll
                             .align(Alignment.CenterVertically)
                             .padding(4.dp)
                     ) {
-                    Text(text = "Ver", color = Color.White)
-                }
+                        Text(text = "Ver", color = Color.White)
+                    }
             }
 
 
@@ -263,72 +262,9 @@ fun ContratosCard(contrato: Contrato,index: Int,  navController: NavHostControll
 
     }
 
-           /* Card(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp, vertical = 8.dp)
-                    .fillMaxWidth(),
-                shape = RoundedCornerShape(corner = CornerSize(16.dp)),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-                colors = CardDefaults.cardColors(containerColor = Color(0xff062863))
-            ) {
-                if(index == 0 && contrato.fechaRegistro == null ){
-                    Row() {
-                        Column(
-                            modifier = Modifier
-                                .weight(.70f)
-                                .padding(16.dp)
-                                .fillMaxWidth()
-                                .align(Alignment.CenterVertically)
-                        ) {
-                            Text(text = contrato.idSolicitudCotizacion.toString(), color = Color.White)
-                        }
-                        Button(onClick = { /*TODO*/ }, Modifier.weight(.30f)) {
-                            Text(text = "Crear", color = Color.White)
-                        }
-                    }
-                }else if(index == 1){
-                    Row() {
-                        Column(
-                            modifier = Modifier
-                                .weight(.70f)
-                                .padding(16.dp)
-                                .fillMaxWidth()
-                                .align(Alignment.CenterVertically)
-                        ) {
-                            Text(text = contrato.idContrato.toString(), color = Color.White)
-                            Text(text = contrato.idSolicitudCotizacion.toString(), color = Color.White)
-                            Text(text = contrato.fechaContrato.toString(), color = Color.White)
-                        }
-
-                        Button(onClick = { /*TODO*/ }, Modifier.weight(.30f)) {
-                            Text(text = "Firmar", color = Color.White)
-                        }
-                    }
-
-                }else if(index == 2 && contrato.fechaFirmaPersonal != null && contrato.fechaFirmaSolicitante != null){
-                    Row() {
-                        Column(
-                            modifier = Modifier
-                                .weight(.70f)
-                                .padding(16.dp)
-                                .fillMaxWidth()
-                                .align(Alignment.CenterVertically)
-                        ) {
-                            Text(text = contrato.idContrato.toString(), color = Color.White)
-                            Text(text = contrato.idPersonal.toString(), color = Color.White)
-                            Text(text = contrato.idSolicitante.toString(), color = Color.White)
-                            Text(text = contrato.fechaRegistro.toString(), color = Color.White)
-                        }
-
-                        Button(onClick = { /*TODO*/ }, Modifier.weight(.30f)) {
-                            Text(text = "Ver", color = Color.White)
-                        }
-                    }
-                }
-
-            }*/
 
 }
+
 
 @Composable
 fun TextVisible(text: String, isVisible : Boolean){
@@ -343,5 +279,3 @@ fun TextVisibleLabel(text: String, isVisible : Boolean){
         Text(text = text, color = Color.White, style = typography.titleSmall)
     }
 }
-
-

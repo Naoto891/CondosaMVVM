@@ -1,6 +1,5 @@
-package com.example.condosamvvm.presentation.vistacontrato.firmarContrato
+package com.example.condosamvvm.presentation.vistacontrato.personal.firmarcontrato
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,11 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults.buttonColors
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -32,7 +27,7 @@ import com.example.condosamvvm.presentation.Screen
 import com.example.condosamvvm.presentation.login.HeaderImage
 
 @Composable
-fun FirmarContratoScreen(idContrato: Int, navController: NavHostController){
+fun FirmarContratoPersonalScreen(idContrato: Int, navController: NavHostController){
 
     Column(
         Modifier
@@ -81,14 +76,15 @@ fun FirmarContratoScreen(idContrato: Int, navController: NavHostController){
             horizontalArrangement = Arrangement.Center,
         ){
             Button(
-                onClick = { navController.navigate(Screen.FirmaDigital.whitArgs(idContrato)) },
-                colors = buttonColors(containerColor = Color(0xff9AB4FF))) {
+                onClick = { navController.navigate(Screen.FirmaDigitalPersonal.whitArgs(idContrato)) },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xff9AB4FF))
+            ) {
                 Text(text = "Subir firma", color = Color.Black)
             }
             Spacer(Modifier.padding(horizontal = 10.dp))
             Button(onClick = {  },
-                colors = buttonColors(containerColor = Color(0xff9AB4FF))
-                ) {
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xff9AB4FF))
+            ) {
                 Text(text = "Subir huella", color = Color.Black)
             }
         }
@@ -96,4 +92,3 @@ fun FirmarContratoScreen(idContrato: Int, navController: NavHostController){
 
     }
 }
-
