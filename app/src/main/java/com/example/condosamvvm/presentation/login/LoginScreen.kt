@@ -174,7 +174,7 @@ fun EmailField(email :String, onTextChanged: (String) -> Unit){
         modifier = Modifier
             .fillMaxWidth()
             .border(1.dp, Color.LightGray, CircleShape),
-        placeholder = {Text(text = "Email/Dni")},
+        placeholder = {Text(text = "Email")},
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, imeAction = ImeAction.Next),
         singleLine = true,
         shape = CircleShape,
