@@ -113,6 +113,7 @@ fun Contrato (firmarContratoPersonalViewModel: FirmarContratoPersonalViewModel, 
     val contratoData: ContratoData ? by firmarContratoPersonalViewModel.contratoData.observeAsState()
     firmarContratoPersonalViewModel.getContratoData(idContrato)
 
+    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
     Box(
         modifier = Modifier
@@ -135,8 +136,7 @@ fun Contrato (firmarContratoPersonalViewModel: FirmarContratoPersonalViewModel, 
                     Text(
                         text = "CONTRATO DE PRESTACION DE\nSERVICIOS - CONDOSA",
                         fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        fontSize = TextUnit.Unspecified.div(30)
+                        textAlign = TextAlign.Center
                     )
                 }
             }
