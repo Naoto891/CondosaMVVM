@@ -1,3 +1,5 @@
+
+
 package com.example.condosamvvm.data.repository
 
 import com.example.condosamvvm.data.db.dao.UsuarioDao
@@ -17,7 +19,7 @@ class UsuarioRepositoryImpl @Inject constructor(
 
 
     override suspend fun checkUsuario(userName: String, password: String): Boolean {
-       return dao.checkUsuario(userName,password)
+        return dao.checkUsuario(userName,password)
     }
 
     override suspend fun getIdPersonal(idPersona: Int): Boolean {

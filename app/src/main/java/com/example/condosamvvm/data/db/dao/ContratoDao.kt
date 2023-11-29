@@ -33,6 +33,16 @@ class ContratoDao {
             .selectAll()
             .map(::resultRowToContrato)
     }
+/*
+    suspend fun getContratosByIdSolicitante(idPersona: Int): List<Contrato> = dbQuery {
+        (ContratoTable innerJoin PersonalTable)
+            .select {
+                (ContratoTable.idSolicitante eq idPersona) and
+                        (ContratoTable.otraColumna eq OtraTabla.otraColumna)
+                // Agrega las condiciones para el join según las columnas que relacionan las tablas
+            }
+            .map(::resultRowToContrato)
+    }*/
 
     suspend fun getContratosByIdSolicitante(idPersona:Int) : List<Contrato> = dbQuery {
         ContratoTable

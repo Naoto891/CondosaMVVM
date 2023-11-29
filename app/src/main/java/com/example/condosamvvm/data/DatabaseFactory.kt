@@ -10,9 +10,9 @@ object DatabaseFactory {
 
     fun init() {
         val driverClassName = "org.postgresql.Driver"
-        val jdbcURL = "jdbc:postgresql://192.168.1.103:5432/condosa2"
-        val user = "postgres"
-        val password = "pedro"
+        val jdbcURL = "jdbc:postgresql://137.184.120.127:5432/sigcon"
+        val user = "modulo4"
+        val password = "modulo4"
         Database.connect(jdbcURL, driverClassName, user, password)
     }
 

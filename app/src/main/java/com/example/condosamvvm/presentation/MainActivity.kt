@@ -24,6 +24,7 @@ import com.example.condosamvvm.presentation.login.LoginViewModel
 import com.example.condosamvvm.presentation.vistacontrato.personal.ContratoPersonalScreen
 import com.example.condosamvvm.presentation.vistacontrato.personal.ContratoPersonalViewModel
 import com.example.condosamvvm.presentation.vistacontrato.personal.firmarcontrato.FirmarContratoPersonalScreen
+import com.example.condosamvvm.presentation.vistacontrato.personal.firmarcontrato.FirmarContratoPersonalViewModel
 import com.example.condosamvvm.presentation.vistacontrato.personal.firmarcontrato.firmadigital.FirmaDigitalPersonalScreen
 import com.example.condosamvvm.presentation.vistacontrato.personal.firmarcontrato.firmadigital.FirmaDigitalPersonalViewModel
 import com.example.condosamvvm.presentation.vistacontrato.solicitante.ContratoSolicitanteScreen
@@ -50,6 +51,7 @@ class MainActivity : ComponentActivity() {
     private val solicitanteViewModel: SolicitanteViewModel by viewModels()
     private val contratoPersonalViewModel: ContratoPersonalViewModel by viewModels()
     private val contratoSolicitanteViewModel: ContratoSolicitanteViewModel by viewModels()
+    private val firmarContratoPersonalViewModel: FirmarContratoPersonalViewModel by viewModels()
     private val firmaDigitalSolicitanteViewModel: FirmaDigitalSolicitanteViewModel by viewModels()
     private val firmaDigitalPersonalViewModel: FirmaDigitalPersonalViewModel by viewModels()
     private val contratosFirmadosSolicitantesViewModel: ContratosFirmadosSolicitantesViewModel by viewModels()
@@ -136,6 +138,7 @@ class MainActivity : ComponentActivity() {
                                 ){entry ->
                                     FirmarContratoPersonalScreen(
                                         idContrato = entry.arguments?.getInt("idContrato")!!,
+                                        firmarContratoPersonalViewModel = firmarContratoPersonalViewModel,
                                         navController = navController
                                     )
                                 }
